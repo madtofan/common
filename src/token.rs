@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
-struct Claims {
-    sub: String,
-    user_id: i64,
-    exp: usize,
+pub struct Claims {
+    pub sub: String,
+    pub user_id: i64,
+    pub exp: usize,
 }
