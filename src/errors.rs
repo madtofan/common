@@ -7,7 +7,6 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 use std::{borrow::Cow, collections::HashMap, fmt::Debug};
 use thiserror::Error;
-use tracing::log::error;
 use validator::{ValidationErrors, ValidationErrorsKind};
 
 #[derive(Debug, Deserialize, Serialize)]
