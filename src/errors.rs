@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 use std::{borrow::Cow, collections::HashMap, fmt::Debug};
 use thiserror::Error;
+use tonic::Status;
 use validator::{ValidationErrors, ValidationErrorsKind};
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -106,5 +107,15 @@ impl IntoResponse for ServiceError {
         let body = Json(ApiError::new(error_message));
 
         (status, body).into_response()
+    }
+}
+
+impl From<ServiceError> for Status {
+    fn from(service_error: ServiceError) -> Self {
+        match service_error {
+            ServiceError::Unauthorized => Status::unauthenticated(service_error.to_string()),
+            ServiceError::BadRequest(_) => Status::invalid_argument(service_error.to_string()),
+            _ => Status::internal(service_error.to_string()),
+        }
     }
 }
