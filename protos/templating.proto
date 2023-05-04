@@ -1,0 +1,47 @@
+syntax = "proto3";
+package templating;
+
+service Templating {
+  rpc AddTemplate(AddTemplateRequest) returns (TemplatingResponse);
+  rpc RemoveTemplate(RemoveTemplateRequest) returns (TemplatingResponse);
+  rpc ListTemplates(ListTemplateRequest) returns (ListTemplateResponse);
+  rpc Compose(ComposeRequest) returns (ComposeResponse);
+}
+
+message TemplateInput {
+  string name = 1;
+  string default_value = 2;
+}
+
+message AddTemplateRequest {
+  string name = 1;
+  string description = 2;
+  string body = 3;
+  repeated TemplateInput template_inputs = 4;
+}
+
+message RemoveTemplateRequest { string name = 1; }
+
+message ListTemplateRequest {}
+
+message ComposeRequest {
+  string name = 1;
+  message InputValue {
+    string name = 1;
+    string value = 2;
+  }
+  repeated InputValue input_values = 2;
+}
+
+message TemplatingResponse { string message = 1; }
+
+message ListTemplateResponse {
+  message Templates {
+    string name = 1;
+    string description = 2;
+    repeated TemplateInput template_inputs = 3;
+  }
+  repeated Templates templates = 1;
+}
+
+message ComposeResponse { string result = 1; }

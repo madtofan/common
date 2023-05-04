@@ -1,0 +1,61 @@
+syntax = "proto3";
+package email;
+
+service Email {
+  rpc SendEmail(SendEmailRequest) returns (EmailResponse);
+  rpc BlastEmail(BlastEmailRequest) returns (EmailResponse);
+  rpc AddSubscriber(AddSubscriberRequest) returns (EmailResponse);
+  rpc RemoveSubscriber(RemoveSubscriberRequest) returns (EmailResponse);
+  rpc AddGroup(AddGroupRequest) returns (EmailResponse);
+  rpc RemoveGroup(RemoveGroupRequest) returns (EmailResponse);
+  rpc GetSubscribers(GetSubscribersRequest) returns (SubscribersResponse);
+  rpc GetSubscriberGroups(GetSubscriberGroupsRequest) returns (GroupsResponse);
+}
+
+message SendEmailRequest {
+  string email = 1;
+  string title = 2;
+  string body = 3;
+}
+
+message BlastEmailRequest {
+  string group = 1;
+  string title = 2;
+  string body = 3;
+}
+
+message AddSubscriberRequest {
+  string email = 1;
+  string group = 2;
+}
+
+message RemoveSubscriberRequest {
+  string email = 1;
+  string group = 2;
+}
+
+message AddGroupRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message RemoveGroupRequest { string name = 1; }
+
+message GetSubscribersRequest { string group = 1; }
+
+message GetSubscriberGroupsRequest { string email = 1; }
+
+message EmailResponse { string message = 1; }
+
+message SubscribersResponse {
+  message Subscriber { string email = 1; }
+  repeated Subscriber subscribers = 1;
+}
+
+message GroupsResponse {
+  message Group {
+    string name = 1;
+    string description = 2;
+  }
+  repeated Group groups = 1;
+}
