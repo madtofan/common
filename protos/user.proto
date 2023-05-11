@@ -4,8 +4,10 @@ package user;
 service User {
   rpc Login(LoginRequest) returns (UserResponse);
   rpc Register(RegisterRequest) returns (UserResponse);
+  rpc VerifyRegistration(VerifyRegistrationRequest) returns (UserResponse);
   rpc Get(GetUserRequest) returns (UserResponse);
   rpc Update(UpdateRequest) returns (UserResponse);
+  rpc RefreshToken(RefreshTokenRequest) returns (UserResponse);
 }
 
 message LoginRequest {
@@ -13,11 +15,18 @@ message LoginRequest {
   string password = 2;
 }
 
+message RefreshRequest {
+  int64 id = 1;
+  string token = 2;
+}
+
 message RegisterRequest {
   string username = 1;
   string email = 2;
   string password = 3;
 }
+
+message VerifyRegistrationRequest { int64 id = 1; }
 
 message GetUserRequest { int64 id = 1; }
 
@@ -33,10 +42,16 @@ message UpdateRequest {
   UpdateFields fields = 2;
 }
 
+message RefreshTokenRequest {
+  int64 id = 1;
+  string token = 2;
+}
+
 message UserResponse {
   int64 id = 1;
   string username = 2;
   string email = 3;
   optional string bio = 4;
   optional string image = 5;
+  optional string token = 6;
 }
