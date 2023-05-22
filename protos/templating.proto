@@ -2,10 +2,16 @@ syntax = "proto3";
 package templating;
 
 service Templating {
-  rpc AddTemplate(AddTemplateRequest) returns (TemplatingResponse);
-  rpc RemoveTemplate(RemoveTemplateRequest) returns (TemplatingResponse);
+  rpc AddTemplate(AddTemplateRequest) returns (TemplateResponse);
+  rpc RemoveTemplate(RemoveTemplateRequest) returns (TemplateResponse);
   rpc ListTemplates(ListTemplateRequest) returns (ListTemplateResponse);
   rpc Compose(ComposeRequest) returns (ComposeResponse);
+}
+
+message TemplateResponse {
+  string name = 1;
+  string description = 2;
+  repeated TemplateInput template_inputs = 3;
 }
 
 message TemplateInput {
@@ -33,15 +39,6 @@ message ComposeRequest {
   repeated InputValue input_values = 2;
 }
 
-message TemplatingResponse { string message = 1; }
-
-message ListTemplateResponse {
-  message Templates {
-    string name = 1;
-    string description = 2;
-    repeated TemplateInput template_inputs = 3;
-  }
-  repeated Templates templates = 1;
-}
+message ListTemplateResponse { repeated TemplateResponse templates = 1; }
 
 message ComposeResponse { string result = 1; }
