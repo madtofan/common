@@ -1,6 +1,6 @@
 [package]
 name = "madtofan-microservice-common"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 author = ["madtofan"]
 description = "Common library for rust full rust stack microservices"
