@@ -21,9 +21,10 @@ message RefreshRequest {
 }
 
 message RegisterRequest {
-  string username = 1;
-  string email = 2;
-  string password = 3;
+  string email = 1;
+  string password = 2;
+  string first_name = 3;
+  string last_name = 4;
 }
 
 message VerifyRegistrationRequest { int64 id = 1; }
@@ -33,9 +34,9 @@ message GetUserRequest { int64 id = 1; }
 message UpdateRequest {
   int64 id = 1;
   message UpdateFields {
-    optional string email = 2;
-    optional string username = 3;
-    optional string password = 4;
+    optional string password = 2;
+    optional string first_name = 3;
+    optional string last_name = 4;
     optional string bio = 5;
     optional string image = 6;
   }
@@ -49,9 +50,10 @@ message RefreshTokenRequest {
 
 message UserResponse {
   int64 id = 1;
-  string username = 2;
-  string email = 3;
-  optional string bio = 4;
-  optional string image = 5;
-  optional string token = 6;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  optional string bio = 5;
+  optional string image = 6;
+  optional string token = 7;
 }
