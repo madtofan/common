@@ -95,6 +95,10 @@ impl IntoResponse for ServiceError {
             Self::InternalServerErrorWithContext(err) => (StatusCode::INTERNAL_SERVER_ERROR, err),
             Self::NotFound(err) => (StatusCode::NOT_FOUND, err),
             Self::ObjectConflict(err) => (StatusCode::CONFLICT, err),
+            Self::Unauthorized => (
+                StatusCode::UNAUTHORIZED,
+                String::from("Bearer token not available or expired"),
+            ),
             Self::InvalidLoginAttempt => (
                 StatusCode::BAD_REQUEST,
                 Self::InvalidLoginAttempt.to_string(),
