@@ -5,6 +5,7 @@ service User {
   rpc Login(LoginRequest) returns (UserResponse);
   rpc Register(RegisterRequest) returns (UserResponse);
   rpc VerifyRegistration(VerifyRegistrationRequest) returns (UserResponse);
+  rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
   rpc Get(GetUserRequest) returns (UserResponse);
   rpc Update(UpdateRequest) returns (UserResponse);
   rpc RefreshToken(RefreshTokenRequest) returns (UserResponse);
@@ -28,6 +29,11 @@ message RegisterRequest {
 }
 
 message VerifyRegistrationRequest { int64 id = 1; }
+
+message VerifyTokenRequest { 
+  int64 id = 1;
+  string token = 2;
+}
 
 message GetUserRequest { int64 id = 1; }
 
@@ -56,4 +62,8 @@ message UserResponse {
   optional string bio = 5;
   optional string image = 6;
   optional string token = 7;
+}
+
+message VerifyTokenResponse {
+  bool valid = 1;
 }
