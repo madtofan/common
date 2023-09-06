@@ -15,4 +15,8 @@ mod gen {
     pub mod user {
         tonic::include_proto!("user");
     }
+
+    pub mod notification {
+        tonic::include_proto!("notification");
+    }
 }

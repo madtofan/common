@@ -120,6 +120,9 @@ impl From<ServiceError> for Status {
         match service_error {
             ServiceError::Unauthorized => Status::unauthenticated(service_error.to_string()),
             ServiceError::BadRequest(_) => Status::invalid_argument(service_error.to_string()),
+            ServiceError::NotFound(message) => {
+                Status::with_details(Code::NotFound, message, Bytes::new())
+            }
             ServiceError::InternalServerErrorWithContext(message) => {
                 Status::with_details(Code::Internal, message, Bytes::new())
             }

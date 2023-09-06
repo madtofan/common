@@ -10,6 +10,7 @@ fn build_control() -> Result<(), Box<dyn Error>> {
         "./protos/email.proto",
         "./protos/templating.proto",
         "./protos/user.proto",
+        "./protos/notification.proto",
     ];
     let dirs = &["./protos"];
 
