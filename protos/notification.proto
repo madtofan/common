@@ -8,7 +8,7 @@ service Notification {
   rpc RemoveGroup(RemoveGroupRequest) returns (NotificationResponse);
   rpc GetSubscribers(GetSubscribersRequest) returns (SubscribersResponse);
   rpc GetGroups(GetGroupsRequest) returns (GroupsResponse);
-  rpc VerifyToken(VerifyTokenRequest) returns (NotificationResponse);
+  rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
 }
 
 message AddSubscriberRequest {
