@@ -8,7 +8,10 @@ service Notification {
   rpc RemoveGroup(RemoveGroupRequest) returns (NotificationResponse);
   rpc GetSubscribers(GetSubscribersRequest) returns (SubscribersResponse);
   rpc GetGroups(GetGroupsRequest) returns (GroupsResponse);
-  rpc VerifyToken(VerifyTokenRequest) returns (NotificationResponse);
+  rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
+  rpc AddMessage(AddMessageRequest) returns (MessageResponse);
+  rpc GetMessages(GetMessagesRequest) returns (MessagesResponse);
+  rpc ClearMessages(ClearMessagesRequest) returns (NotificationResponse);
 }
 
 message AddSubscriberRequest {
@@ -41,6 +44,22 @@ message VerifyTokenRequest {
   string token = 2;
 }
 
+message AddMessageRequest {
+  string channel = 1;
+  string subject = 2;
+  string message = 3;
+}
+
+message GetMessagesRequest {
+  repeated string channels = 1;
+  int64 offset = 2;
+  int64 limit = 3;
+}
+
+message GetMessagesCountRequest { repeated string channels = 1; }
+
+message ClearMessagesRequest { int64 date = 1; }
+
 message NotificationResponse { string message = 1; }
 
 message SubscribersResponse {
@@ -54,3 +73,16 @@ message GroupsResponse {
 }
 
 message VerifyTokenResponse { bool valid = 1; }
+
+message MessageResponse {
+  int64 id = 1;
+  string channel = 2;
+  string subject = 3;
+  string message = 4;
+  int64 date = 5;
+}
+
+message MessagesResponse {
+  repeated MessageResponse messages = 1;
+  int64 count = 2;
+}

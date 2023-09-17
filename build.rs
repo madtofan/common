@@ -7,10 +7,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 fn build_control() -> Result<(), Box<dyn Error>> {
     let iface_files = &[
-        "./protos/email.proto",
-        "./protos/templating.proto",
-        "./protos/user.proto",
-        "./protos/notification.proto",
+        "./protos_test_proto3_optional/email.proto",
+        "./protos_test_proto3_optional/templating.proto",
+        "./protos_test_proto3_optional/user.proto",
+        "./protos_test_proto3_optional/notification.proto",
     ];
     let dirs = &["./protos"];
 
