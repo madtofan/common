@@ -9,6 +9,12 @@ service User {
   rpc Get(GetUserRequest) returns (UserResponse);
   rpc Update(UpdateRequest) returns (UserResponse);
   rpc RefreshToken(RefreshTokenRequest) returns (UserResponse);
+  rpc AddPermission(RolesPermissionsRequest) returns (StatusMessageResponse);
+  rpc DeletePermission(RolesPermissionsRequest) returns (StatusMessageResponse);
+  rpc AddRole(RolesPermissionsRequest) returns (StatusMessageResponse);
+  rpc DeleteRole(RolesPermissionsRequest) returns (StatusMessageResponse);
+  rpc AuthorizeRole(Role) returns (StatusMessageResponse);
+  rpc RevokeRole(Role) returns (StatusMessageResponse);
 }
 
 message LoginRequest {
@@ -54,6 +60,14 @@ message RefreshTokenRequest {
   string token = 2;
 }
 
+message RolesPermissionsRequest {
+  string name = 1;
+}
+
+message Role {
+  string name = 1;
+  repeated string permissions = 2;
+}
 message UserResponse {
   int64 id = 1;
   string email = 2;
@@ -62,8 +76,13 @@ message UserResponse {
   optional string bio = 5;
   optional string image = 6;
   optional string token = 7;
+  repeated Role roles = 8;
 }
 
 message VerifyTokenResponse {
   bool valid = 1;
+}
+
+message StatusMessageResponse {
+  string message = 1;
 }
