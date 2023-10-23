@@ -15,6 +15,8 @@ service User {
   rpc DeleteRole(RolesPermissionsRequest) returns (StatusMessageResponse);
   rpc AuthorizeRole(Role) returns (StatusMessageResponse);
   rpc RevokeRole(Role) returns (StatusMessageResponse);
+  rpc ListRoles(GetListRequest) returns (ListResponse);
+  rpc ListPermissions(GetListRequest) returns (ListResponse);
 }
 
 message LoginRequest {
@@ -36,7 +38,7 @@ message RegisterRequest {
 
 message VerifyRegistrationRequest { int64 id = 1; }
 
-message VerifyTokenRequest { 
+message VerifyTokenRequest {
   int64 id = 1;
   string token = 2;
 }
@@ -60,9 +62,7 @@ message RefreshTokenRequest {
   string token = 2;
 }
 
-message RolesPermissionsRequest {
-  string name = 1;
-}
+message RolesPermissionsRequest { string name = 1; }
 
 message Role {
   string name = 1;
@@ -79,10 +79,21 @@ message UserResponse {
   repeated Role roles = 8;
 }
 
-message VerifyTokenResponse {
-  bool valid = 1;
+message VerifyTokenResponse { bool valid = 1; }
+
+message StatusMessageResponse { string message = 1; }
+
+message GetListRequest {
+  int64 offset = 1;
+  int64 limit = 2;
 }
 
-message StatusMessageResponse {
-  string message = 1;
+message RolePermission {
+  int64 id = 1;
+  string name = 2;
+}
+
+message ListResponse {
+  repeated RolePermission list = 1;
+  int64 count = 2;
 }
