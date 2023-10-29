@@ -6,7 +6,7 @@ service User {
   rpc Register(RegisterRequest) returns (UserResponse);
   rpc VerifyRegistration(VerifyRegistrationRequest) returns (UserResponse);
   rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
-  rpc Get(GetUserRequest) returns (UserResponse);
+  rpc GetUser(GetUserRequest) returns (UserResponse);
   rpc Update(UpdateRequest) returns (UserResponse);
   rpc RefreshToken(RefreshTokenRequest) returns (UserResponse);
   rpc AddPermission(RolesPermissionsRequest) returns (StatusMessageResponse);
