@@ -17,6 +17,8 @@ service User {
   rpc RevokeRole(Role) returns (StatusMessageResponse);
   rpc ListRoles(GetListRequest) returns (ListResponse);
   rpc ListPermissions(GetListRequest) returns (ListResponse);
+  rpc AuthorizeUser(AuthorizeRevokeUser) returns (UserResponse);
+  rpc RevokeUser(AuthorizeRevokeUser) returns (UserResponse);
 }
 
 message LoginRequest {
@@ -68,6 +70,12 @@ message Role {
   string name = 1;
   repeated string permissions = 2;
 }
+
+message AuthorizeRevokeUser {
+  int64 id = 1;
+  repeated string roles = 2;
+}
+
 message UserResponse {
   int64 id = 1;
   string email = 2;
