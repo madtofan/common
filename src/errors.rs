@@ -105,6 +105,10 @@ impl IntoResponse for ServiceError {
                 StatusCode::UNAUTHORIZED,
                 Self::InvalidLoginAttempt.to_string(),
             ),
+            Self::Forbidden => (
+                StatusCode::FORBIDDEN,
+                String::from("User does not have permission to do this action"),
+            ),
             _ => (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 String::from("unexpected error occured"),
