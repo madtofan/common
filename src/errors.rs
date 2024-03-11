@@ -51,6 +51,8 @@ pub enum ServiceError {
     Unprocessable { errors: ServiceErrorMap },
     #[error(transparent)]
     ValidationError(#[from] ValidationErrors),
+    #[error("Unable to connect to service")]
+    FailedToConnectToService,
     #[error(transparent)]
     AxumJsonRejection(#[from] axum::extract::rejection::JsonRejection),
     #[error(transparent)]
@@ -100,7 +102,7 @@ impl IntoResponse for ServiceError {
                 String::from("Bearer token not available or expired"),
             ),
             Self::InvalidLoginAttempt => (
-                StatusCode::BAD_REQUEST,
+                StatusCode::UNAUTHORIZED,
                 Self::InvalidLoginAttempt.to_string(),
             ),
             _ => (
@@ -120,6 +122,12 @@ impl From<ServiceError> for Status {
         match service_error {
             ServiceError::Unauthorized => Status::unauthenticated(service_error.to_string()),
             ServiceError::BadRequest(_) => Status::invalid_argument(service_error.to_string()),
+            ServiceError::Forbidden => Status::permission_denied(service_error.to_string()),
+            ServiceError::InvalidLoginAttempt => Status::unauthenticated(service_error.to_string()),
+            ServiceError::InternalServerError => Status::internal(service_error.to_string()),
+            ServiceError::ObjectConflict(message) => {
+                Status::with_details(Code::AlreadyExists, message, Bytes::new())
+            }
             ServiceError::NotFound(message) => {
                 Status::with_details(Code::NotFound, message, Bytes::new())
             }
@@ -127,6 +135,29 @@ impl From<ServiceError> for Status {
                 Status::with_details(Code::Internal, message, Bytes::new())
             }
             _ => Status::internal(service_error.to_string()),
+        }
+    }
+}
+
+impl From<Status> for ServiceError {
+    fn from(status: Status) -> Self {
+        match status.code() {
+            Code::NotFound => ServiceError::NotFound(String::from(status.message())),
+            Code::InvalidArgument => ServiceError::BadRequest(String::from(status.message())),
+            Code::Internal => {
+                ServiceError::InternalServerErrorWithContext(String::from(status.message()))
+            }
+            Code::Unauthenticated => ServiceError::Unauthorized,
+            Code::PermissionDenied => ServiceError::Forbidden,
+            Code::Unimplemented => ServiceError::InternalServerError,
+            Code::ResourceExhausted => ServiceError::InternalServerError,
+            Code::Aborted => ServiceError::InternalServerError,
+            Code::Unavailable => ServiceError::InternalServerError,
+            Code::DataLoss => ServiceError::InternalServerError,
+            Code::Unknown => ServiceError::InternalServerError,
+            Code::Cancelled => ServiceError::InternalServerError,
+            Code::DeadlineExceeded => ServiceError::InternalServerError,
+            _ => ServiceError::InternalServerError,
         }
     }
 }
