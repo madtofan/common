@@ -19,6 +19,7 @@ service User {
   rpc ListPermissions(GetListRequest) returns (ListResponse);
   rpc AuthorizeUser(AuthorizeRevokeUser) returns (UserResponse);
   rpc RevokeUser(AuthorizeRevokeUser) returns (UserResponse);
+  rpc GetUserList(GetListRequest) returns (UserListResponse);
 }
 
 message LoginRequest {
@@ -66,6 +67,11 @@ message RefreshTokenRequest {
 
 message RolesPermissionsRequest { string name = 1; }
 
+message GetUserListRequest {
+  int64 offset = 1;
+  int64 limit = 2;
+}
+
 message Role {
   string name = 1;
   repeated string permissions = 2;
@@ -103,5 +109,20 @@ message RolePermission {
 
 message ListResponse {
   repeated RolePermission list = 1;
+  int64 count = 2;
+}
+
+message UserList {
+  int64 id = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  optional string bio = 5;
+  optional string image = 6;
+  bool verified = 7;
+}
+
+message UserListResponse {
+  repeated UserList users = 1;
   int64 count = 2;
 }

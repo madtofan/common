@@ -41,15 +41,24 @@ message AddGroupRequest {
 
 message RemoveGroupRequest { string name = 1; }
 
-message GetSubscribersRequest { string group = 1; }
+message GetSubscribersRequest {
+  string group = 1;
+  int64 offset = 2;
+  int64 limit = 3;
+}
 
-message GetSubscriberGroupsRequest { string email = 1; }
+message GetSubscriberGroupsRequest {
+  string email = 1;
+  int64 offset = 2;
+  int64 limit = 3;
+}
 
 message EmailResponse { string message = 1; }
 
 message SubscribersResponse {
   message Subscriber { string email = 1; }
   repeated Subscriber subscribers = 1;
+  int64 count = 2;
 }
 
 message GroupsResponse {
@@ -58,4 +67,5 @@ message GroupsResponse {
     string description = 2;
   }
   repeated Group groups = 1;
+  int64 count = 2;
 }
