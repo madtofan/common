@@ -9,6 +9,7 @@ use serde_json::json;
 use std::{borrow::Cow, collections::HashMap, fmt::Debug};
 use thiserror::Error;
 use tonic::{Code, Status};
+use tracing::error;
 use validator::{ValidationErrors, ValidationErrorsKind};
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -115,6 +116,7 @@ impl IntoResponse for ServiceError {
             ),
         };
 
+        error!("{}: {}", status, error_message);
         let body = Json(ApiError::new(error_message));
 
         (status, body).into_response()
